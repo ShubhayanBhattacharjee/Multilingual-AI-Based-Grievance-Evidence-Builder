@@ -1,0 +1,99 @@
+src/
+│
+├── assets/
+│   ├── images/
+│   ├── icons/
+│   └── animations/
+│
+├── components/
+│   ├── common/
+│   │   ├── Button.jsx
+│   │   ├── Input.jsx
+│   │   ├── Modal.jsx
+│   │   ├── Loader.jsx
+│   │   ├── Card.jsx
+│   │   └── Navbar.jsx
+│   │
+│   ├── complaint/
+│   │   ├── ComplaintCard.jsx
+│   │   ├── ComplaintForm.jsx
+│   │   ├── EvidenceUploader.jsx
+│   │   ├── ComplaintStatus.jsx
+│   │   └── ComplaintTimeline.jsx
+│   │
+│   ├── dashboard/
+│   │   ├── Sidebar.jsx
+│   │   ├── DashboardStats.jsx
+│   │   ├── Heatmap.jsx
+│   │   ├── QueueFilters.jsx
+│   │   └── SLAWarning.jsx
+│   │
+│   └── ai/
+│       ├── AISummary.jsx
+│       ├── EvidenceScore.jsx
+│       └── RecommendationCard.jsx
+│
+├── layouts/
+│   ├── MainLayout.jsx
+│   ├── AuthLayout.jsx
+│   ├── CitizenLayout.jsx
+│   └── OfficerLayout.jsx
+│
+├── pages/
+│   ├── home/
+│   │   └── Home.jsx
+│   │
+│   ├── auth/
+│   │   ├── Login.jsx
+│   │   └── Signup.jsx
+│   │
+│   ├── citizen/
+│   │   ├── CitizenDashboard.jsx
+│   │   ├── RegisterComplaint.jsx
+│   │   ├── ComplaintDetails.jsx
+│   │   └── Profile.jsx
+│   │
+│   ├── officer/
+│   │   ├── OfficerDashboard.jsx
+│   │   ├── ComplaintQueue.jsx
+│   │   ├── ComplaintReview.jsx
+│   │   └── Analytics.jsx
+│   │
+│   └── error/
+│       └── NotFound.jsx
+│
+├── routes/
+│   ├── AppRoutes.jsx
+│   ├── ProtectedRoute.jsx
+│   └── RoleProtectedRoute.jsx
+│
+├── services/
+│   ├── api.js
+│   ├── authService.js
+│   ├── complaintService.js
+│   └── officerService.js
+│
+├── context/
+│   ├── AuthContext.jsx
+│   └── ThemeContext.jsx
+│
+├── hooks/
+│   ├── useAuth.js
+│   ├── useComplaint.js
+│   └── useDebounce.js
+│
+├── utils/
+│   ├── formatDate.js
+│   ├── calculatePriority.js
+│   ├── constants.js
+│   └── validators.js
+│
+├── data/
+│   └── dummyData.js
+│
+├── styles/
+│   └── globals.css
+│
+├── App.jsx
+├── main.jsx
+└── index.css
