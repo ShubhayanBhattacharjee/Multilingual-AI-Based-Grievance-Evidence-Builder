@@ -8,6 +8,7 @@ import {
 
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
+import CitizenLayout from "../layouts/CitizenLayout";
 
 import { AuthProvider } from "../context/AuthContext";
 import { useAuth } from "../hooks/useAuth";
@@ -70,10 +71,12 @@ function AppRouterTree() {
       </Route>
 
       {/* ── Citizen routes (MainLayout + citizen guard) ── */}
-      <Route element={<RequireCitizen />}>
-        <Route element={<MainLayout />}>
-          <Route path="/citizen/dashboard" element={<CitizenDashboard />} />
+      <Route element={<MainLayout />}>
           <Route path="/file-complaint" element={<RegisterComplaint />} />
+          <Route path="/citizen/dashboard" element={<CitizenDashboard />} />
+      </Route>
+      <Route element={<RequireCitizen />}>
+        <Route element={<CitizenLayout />}>
           <Route path="/complaint/:id" element={<ComplaintDetails />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
