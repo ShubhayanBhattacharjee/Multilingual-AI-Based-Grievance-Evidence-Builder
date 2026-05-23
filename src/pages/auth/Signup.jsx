@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 /* ── Data ── */
 const DATA = [
@@ -199,13 +200,37 @@ export default function Signup() {
     confirm: "",
   });
   const [focused, setFoc] = useState("");
+  const [serverError, setServerError] = useState("");
+
+  const { register, loading } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (form.password !== form.confirm) return alert("Passwords do not match");
-    console.log({ role, ...form });
+    setServerError("");
+    if (form.password !== form.confirm) {
+      setServerError("Passwords do not match.");
+      return;
+    }
+    const result = await register({
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      password: form.password,
+      role,
+    });
+    if (result.success) {
+      navigate(
+        result.user.role === "officer"
+          ? "/officer/dashboard"
+          : "/citizen/dashboard",
+      );
+    } else {
+      setServerError(result.error ?? "Registration failed. Please try again.");
+    }
   };
 
   const inputStyle = (field) => ({

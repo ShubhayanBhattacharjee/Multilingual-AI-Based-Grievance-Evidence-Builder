@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 const ShieldIcon = () => (
   <svg
@@ -16,10 +17,18 @@ const ShieldIcon = () => (
   </svg>
 );
 
-const NAV_LINKS = [
+const GUEST_LINKS = [{ label: "Home", to: "/" }];
+
+const CITIZEN_LINKS = [
   { label: "Home", to: "/" },
-  { label: "Track Complaint", to: "/track" },
-  { label: "About", to: "/about" },
+  { label: "File Complaint", to: "/file-complaint" },
+  { label: "Track Complaint", to: "/citizen/dashboard" },
+];
+
+const OFFICER_LINKS = [
+  { label: "Home", to: "/" },
+  { label: "Dashboard", to: "/officer/dashboard" },
+  { label: "Service Tracking", to: "/officer/queue" },
 ];
 
 function Avatar({ name, onClick }) {
@@ -47,28 +56,14 @@ export default function Navbar() {
   const navigate = useNavigate();
   const dropRef = useRef(null);
 
-  // ── Auth state ──
-  // Reads from localStorage key "nivaran_user" → { name, email, role }
-  // Replace with your real auth context/hook if you have one.
-  const [user, setUser] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem("nivaran_user"));
-    } catch {
-      return null;
-    }
-  });
+  const { user, isAuthenticated, isCitizen, isOfficer, logout } = useAuth();
 
-  useEffect(() => {
-    const sync = () => {
-      try {
-        setUser(JSON.parse(localStorage.getItem("nivaran_user")));
-      } catch {
-        setUser(null);
-      }
-    };
-    window.addEventListener("storage", sync);
-    return () => window.removeEventListener("storage", sync);
-  }, []);
+  // Pick the right link set
+  const NAV_LINKS = isCitizen
+    ? CITIZEN_LINKS
+    : isOfficer
+      ? OFFICER_LINKS
+      : GUEST_LINKS;
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 10);
@@ -98,8 +93,7 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("nivaran_user");
-    setUser(null);
+    logout();
     setDropOpen(false);
     setMenuOpen(false);
     navigate("/");
@@ -153,23 +147,24 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Auth — desktop */}
+          {/* Auth controls — desktop */}
           <div className="hidden md:flex items-center gap-2">
-            {user ? (
+            {isAuthenticated ? (
               <div className="flex items-center gap-2" ref={dropRef}>
-                {/* Logout */}
+                {/* Sign Out button */}
                 <button
                   onClick={handleLogout}
                   className="px-4 py-2 rounded-full text-sm font-medium text-neutral-500
-                    hover:text-red-500 hover:bg-red-50 transition-all duration-150 cursor-pointer border-none bg-transparent"
+                    hover:text-red-500 hover:bg-red-50 transition-all duration-150
+                    cursor-pointer border-none bg-transparent"
                 >
-                  Logout
+                  Sign Out
                 </button>
 
                 {/* Avatar + dropdown */}
                 <div className="relative">
                   <Avatar
-                    name={user.name}
+                    name={user?.name}
                     onClick={() => setDropOpen((p) => !p)}
                   />
 
@@ -185,21 +180,118 @@ export default function Navbar() {
                       {/* User info */}
                       <div className="px-4 py-3 border-b border-black/[0.06]">
                         <p className="text-[13px] font-semibold text-black truncate">
-                          {user.name}
+                          {user?.name}
                         </p>
                         <p className="text-[11px] text-neutral-400 truncate mt-0.5">
-                          {user.email}
+                          {user?.email}
                         </p>
                         <span
                           className="inline-block mt-1.5 px-2 py-0.5 rounded-full bg-black/[0.05]
                           text-[9px] uppercase tracking-widest text-neutral-500 font-semibold"
                         >
-                          {user.role || "citizen"}
+                          {user?.role ?? "citizen"}
                         </span>
                       </div>
 
-                      {/* Links */}
+                      {/* Role-specific quick links */}
                       <div className="py-1.5">
+                        {isCitizen && (
+                          <>
+                            <Link
+                              to="/file-complaint"
+                              className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-neutral-700
+                                hover:bg-black/[0.04] hover:text-black transition-colors no-underline"
+                              onClick={() => setDropOpen(false)}
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="12" y1="18" x2="12" y2="12" />
+                                <line x1="9" y1="15" x2="15" y2="15" />
+                              </svg>
+                              File Complaint
+                            </Link>
+                            <Link
+                              to="/citizen/dashboard"
+                              className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-neutral-700
+                                hover:bg-black/[0.04] hover:text-black transition-colors no-underline"
+                              onClick={() => setDropOpen(false)}
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                              </svg>
+                              Track Complaints
+                            </Link>
+                          </>
+                        )}
+
+                        {isOfficer && (
+                          <>
+                            <Link
+                              to="/officer/dashboard"
+                              className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-neutral-700
+                                hover:bg-black/[0.04] hover:text-black transition-colors no-underline"
+                              onClick={() => setDropOpen(false)}
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <rect x="3" y="3" width="7" height="7" />
+                                <rect x="14" y="3" width="7" height="7" />
+                                <rect x="14" y="14" width="7" height="7" />
+                                <rect x="3" y="14" width="7" height="7" />
+                              </svg>
+                              Dashboard
+                            </Link>
+                            <Link
+                              to="/officer/queue"
+                              className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-neutral-700
+                                hover:bg-black/[0.04] hover:text-black transition-colors no-underline"
+                              onClick={() => setDropOpen(false)}
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                              </svg>
+                              Service Tracking
+                            </Link>
+                          </>
+                        )}
+
                         <Link
                           to="/profile"
                           className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-neutral-700
@@ -221,30 +313,9 @@ export default function Navbar() {
                           </svg>
                           My Profile
                         </Link>
-                        <Link
-                          to="/my-complaints"
-                          className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-neutral-700
-                            hover:bg-black/[0.04] hover:text-black transition-colors no-underline"
-                          onClick={() => setDropOpen(false)}
-                        >
-                          <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                            <polyline points="14 2 14 8 20 8" />
-                          </svg>
-                          My Complaints
-                        </Link>
                       </div>
 
-                      {/* Logout in dropdown */}
+                      {/* Sign out in dropdown */}
                       <div className="border-t border-black/[0.06] py-1.5">
                         <button
                           onClick={handleLogout}
@@ -265,7 +336,7 @@ export default function Navbar() {
                             <polyline points="16 17 21 12 16 7" />
                             <line x1="21" y1="12" x2="9" y2="12" />
                           </svg>
-                          Logout
+                          Sign Out
                         </button>
                       </div>
                     </div>
@@ -300,8 +371,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen((p) => !p)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             className={`md:hidden flex items-center justify-center w-9 h-9 rounded-xl
-              border transition-all duration-150 flex-shrink-0
-              ${
+              border transition-all duration-150 flex-shrink-0 ${
                 menuOpen
                   ? "bg-white border-black/[0.12] text-black"
                   : "bg-white border-black/[0.12] text-neutral-700 hover:border-black/20 hover:text-black"
@@ -339,7 +409,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* ── MOBILE DRAWER ── */}
       <div
         className={`fixed top-16 left-0 right-0 bottom-0 z-40 md:hidden
           flex flex-col px-5 pt-5 pb-10 overflow-y-auto
@@ -352,10 +421,12 @@ export default function Navbar() {
           borderTop: "1px solid rgba(0,0,0,0.07)",
         }}
       >
-        {/* Mobile user strip */}
-        {user && (
+        {isAuthenticated && user && (
           <div className="flex items-center gap-3 px-4 py-3 mb-3 rounded-2xl bg-black/[0.03] border border-black/[0.06]">
-            <div className="w-9 h-9 rounded-full bg-black text-white flex items-center justify-center text-[13px] font-semibold flex-shrink-0">
+            <div
+              className="w-9 h-9 rounded-full bg-black text-white flex items-center
+              justify-center text-[13px] font-semibold flex-shrink-0"
+            >
               {user.name ? user.name.trim()[0].toUpperCase() : "?"}
             </div>
             <div className="min-w-0">
@@ -365,6 +436,9 @@ export default function Navbar() {
               <p className="text-[11px] text-neutral-400 truncate">
                 {user.email}
               </p>
+              <span className="text-[9px] uppercase tracking-widest text-neutral-500 font-semibold">
+                {user.role}
+              </span>
             </div>
           </div>
         )}
@@ -375,8 +449,7 @@ export default function Navbar() {
               key={link.to}
               to={link.to}
               className={`flex items-center justify-between px-4 py-3.5 rounded-2xl
-                text-[15px] font-medium transition-all duration-150 no-underline
-                ${
+                text-[15px] font-medium transition-all duration-150 no-underline ${
                   isActive(link.to)
                     ? "bg-black text-white"
                     : "text-neutral-700 hover:bg-black/[0.05] hover:text-black"
@@ -389,35 +462,15 @@ export default function Navbar() {
             </Link>
           ))}
 
-          {user && (
-            <>
-              <Link
-                to="/profile"
-                className="flex items-center justify-between px-4 py-3.5 rounded-2xl
-                  text-[15px] font-medium text-neutral-700 hover:bg-black/[0.05] hover:text-black no-underline transition-all duration-150"
-                onClick={() => setMenuOpen(false)}
-              >
-                My Profile
-              </Link>
-              <Link
-                to="/my-complaints"
-                className="flex items-center justify-between px-4 py-3.5 rounded-2xl
-                  text-[15px] font-medium text-neutral-700 hover:bg-black/[0.05] hover:text-black no-underline transition-all duration-150"
-                onClick={() => setMenuOpen(false)}
-              >
-                My Complaints
-              </Link>
-            </>
-          )}
-
-          {!user && (
+          {isAuthenticated && (
             <Link
-              to="/citizen/register"
-              className="mt-2 flex items-center justify-center py-3.5 rounded-2xl
-                text-[14px] font-semibold text-black bg-white border border-black/[0.12]
-                hover:bg-blue-100 transition-all duration-150 no-underline"
+              to="/profile"
+              className="flex items-center justify-between px-4 py-3.5 rounded-2xl
+                text-[15px] font-medium text-neutral-700
+                hover:bg-black/[0.05] hover:text-black no-underline transition-all duration-150"
+              onClick={() => setMenuOpen(false)}
             >
-              File a Complaint
+              My Profile
             </Link>
           )}
         </nav>
@@ -425,14 +478,14 @@ export default function Navbar() {
         <div className="my-5 h-px bg-black/[0.07]" />
 
         <div className="flex flex-col gap-2.5">
-          {user ? (
+          {isAuthenticated ? (
             <button
               onClick={handleLogout}
               className="flex items-center justify-center py-3 rounded-2xl
                 bg-white border border-red-200 text-red-500 text-[14px] font-medium
                 hover:bg-red-50 transition-all duration-150 cursor-pointer"
             >
-              Logout
+              Sign Out
             </button>
           ) : (
             <>
