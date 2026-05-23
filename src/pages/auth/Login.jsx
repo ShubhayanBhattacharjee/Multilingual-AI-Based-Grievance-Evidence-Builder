@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 /* ── Data ── */
 const DATA = [
@@ -196,12 +197,31 @@ export default function Login() {
   const [role, setRole] = useState("citizen");
   const [form, setForm] = useState({ email: "", password: "" });
   const [focused, setFoc] = useState("");
+  const [serverError, setServerError] = useState("");
+
+  const { login, loading } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ role, ...form });
+    setServerError("");
+    const result = await login({
+      email: form.email,
+      password: form.password,
+      role,
+    });
+    if (result.success) {
+      navigate(
+        result.user.role === "officer"
+          ? "/officer/dashboard"
+          : "/citizen/dashboard",
+      );
+    } else {
+      setServerError(result.error ?? "Login failed. Please try again.");
+    }
   };
 
   return (
@@ -611,9 +631,22 @@ export default function Login() {
                 }}
               />
 
-              {/* Primary CTA — exact hero button */}
+              {/* Primary CTA */}
+              {serverError && (
+                <p
+                  style={{
+                    color: "#EF4444",
+                    fontSize: 12,
+                    marginBottom: 10,
+                    textAlign: "center",
+                  }}
+                >
+                  {serverError}
+                </p>
+              )}
               <button
                 type="submit"
+                disabled={loading}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -628,29 +661,32 @@ export default function Login() {
                   fontSize: 14,
                   fontWeight: 600,
                   fontFamily: "inherit",
-                  cursor: "pointer",
+                  cursor: loading ? "not-allowed" : "pointer",
+                  opacity: loading ? 0.6 : 1,
                   transition: "background 0.15s ease",
                 }}
                 onMouseEnter={(e) =>
-                  (e.currentTarget.style.background = "#262626")
+                  !loading && (e.currentTarget.style.background = "#262626")
                 }
                 onMouseLeave={(e) =>
                   (e.currentTarget.style.background = "#000")
                 }
               >
-                Sign In
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
+                {loading ? "Signing in…" : "Sign In"}
+                {!loading && (
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                )}
               </button>
 
               {/* Secondary CTA — exact hero ghost button */}
