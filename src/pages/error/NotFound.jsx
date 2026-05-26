@@ -16,16 +16,39 @@ export default function NotFound() {
           font-family: 'Instrument Sans', sans-serif;
           display: flex;
           flex-direction: column;
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* ── Hero-matching grid ── */
+        .nf-grid {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          background-image:
+            linear-gradient(rgba(0,0,0,0.042) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,0.042) 1px, transparent 1px);
+          background-size: 48px 48px;
+        }
+        .nf-grid-vignette {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          background: radial-gradient(ellipse 90% 80% at 50% 50%, transparent 30%, #F7F6F2 100%);
         }
 
         /* ── Top bar ── */
         .nf-topbar {
+          position: relative;
+          z-index: 1;
           border-bottom: 1px solid rgba(0,0,0,0.07);
           padding: 12px 64px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          background: rgba(247,246,242,0.95);
+          background: rgba(247,246,242,0.9);
           backdrop-filter: blur(12px);
           flex-shrink: 0;
         }
@@ -48,30 +71,16 @@ export default function NotFound() {
         /* ── Body ── */
         .nf-body {
           flex: 1;
+          position: relative;
+          z-index: 1;
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 48px 16px;
-          position: relative;
-          overflow: hidden;
-        }
-
-        /* Subtle dot grid */
-        .nf-body::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background-image:
-            radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px);
-          background-size: 28px 28px;
-          pointer-events: none;
-          z-index: 0;
         }
 
         /* ── Card ── */
         .nf-card {
-          position: relative;
-          z-index: 1;
           width: 100%;
           max-width: 420px;
           background: #fff;
@@ -95,7 +104,6 @@ export default function NotFound() {
           margin-bottom: 20px;
         }
 
-        /* Status pill */
         .nf-pill {
           display: inline-flex;
           align-items: center;
@@ -107,17 +115,14 @@ export default function NotFound() {
           margin-bottom: 20px;
         }
         .nf-pill-dot {
-          width: 6px;
-          height: 6px;
+          width: 6px; height: 6px;
           border-radius: 50%;
           background: #EF4444;
           flex-shrink: 0;
         }
         .nf-pill-text {
-          font-size: 11px;
-          font-weight: 600;
-          color: #EF4444;
-          letter-spacing: 0.04em;
+          font-size: 11px; font-weight: 600;
+          color: #EF4444; letter-spacing: 0.04em;
         }
 
         .nf-heading {
@@ -141,14 +146,12 @@ export default function NotFound() {
           margin-bottom: 28px;
         }
 
-        /* Divider */
         .nf-divider {
           border: none;
           border-top: 1px solid rgba(0,0,0,0.07);
           margin-bottom: 20px;
         }
 
-        /* Breadcrumb path */
         .nf-path {
           display: flex;
           align-items: center;
@@ -158,10 +161,7 @@ export default function NotFound() {
           padding: 10px 14px;
           margin-bottom: 20px;
         }
-        .nf-path-icon {
-          flex-shrink: 0;
-          color: #a3a3a3;
-        }
+        .nf-path-icon { flex-shrink: 0; color: #a3a3a3; }
         .nf-path-text {
           font-size: 12px;
           color: #a3a3a3;
@@ -170,12 +170,8 @@ export default function NotFound() {
           text-overflow: ellipsis;
           white-space: nowrap;
         }
-        .nf-path-text em {
-          color: #EF4444;
-          font-style: normal;
-        }
+        .nf-path-text em { color: #EF4444; font-style: normal; }
 
-        /* Buttons */
         .nf-btn-primary {
           display: flex;
           align-items: center;
@@ -217,101 +213,86 @@ export default function NotFound() {
 
         /* ── Bottom bar ── */
         .nf-bottombar {
+          position: relative;
+          z-index: 1;
           border-top: 1px solid rgba(0,0,0,0.07);
           padding: 0 48px;
           height: 44px;
           display: flex;
           align-items: center;
           gap: 24px;
-          background: rgba(247,246,242,0.95);
+          background: rgba(247,246,242,0.9);
           backdrop-filter: blur(12px);
           flex-shrink: 0;
         }
-        .nf-bottombar-item {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
+        .nf-bottombar-item { display: flex; align-items: center; gap: 6px; }
         .nf-bottombar-item span {
-          font-size: 11px;
-          color: #737373;
-          font-weight: 500;
-          letter-spacing: 0.04em;
+          font-size: 11px; color: #737373;
+          font-weight: 500; letter-spacing: 0.04em;
         }
 
-        /* ── Mobile ── */
         @media (max-width: 640px) {
-          .nf-topbar {
-            padding: 12px 20px;
-          }
-          .nf-topbar-right {
-            display: none;
-          }
-          .nf-body {
-            align-items: flex-start;
-            padding: 32px 16px 48px;
-          }
-          .nf-card {
-            padding: 28px 22px 24px;
-            border-radius: 16px;
-          }
-          .nf-heading {
-            font-size: 52px;
-          }
-          .nf-heading span {
-            font-size: 28px;
-          }
-          .nf-bottombar {
-            padding: 0 20px;
-            gap: 16px;
-            overflow-x: auto;
-          }
-          .nf-bottombar-item span {
-            white-space: nowrap;
-          }
+          .nf-topbar { padding: 12px 20px; }
+          .nf-topbar-right { display: none; }
+          .nf-body { align-items: flex-start; padding: 32px 16px 48px; }
+          .nf-card { padding: 28px 22px 24px; border-radius: 16px; }
+          .nf-heading { font-size: 52px; }
+          .nf-heading span { font-size: 28px; }
+          .nf-bottombar { padding: 0 20px; gap: 16px; overflow-x: auto; }
+          .nf-bottombar-item span { white-space: nowrap; }
         }
       `}</style>
 
       <div className="nf-root">
+        {/* Grid layers */}
+        <div className="nf-grid" />
+        <div className="nf-grid-vignette" />
 
         {/* Top bar */}
         <div className="nf-topbar">
           <Link to="/" className="nf-topbar-label">
             India's Civic Complaint Platform
           </Link>
-          <span className="nf-topbar-right">Government Verified · Free to Use</span>
+          <span className="nf-topbar-right">
+            Government Verified · Free to Use
+          </span>
         </div>
 
         {/* Body */}
         <div className="nf-body">
           <div className="nf-card">
-
             <p className="nf-eyebrow">Nivaran · 404</p>
 
-            {/* Status pill */}
             <div className="nf-pill">
               <div className="nf-pill-dot" />
               <span className="nf-pill-text">Page not found</span>
             </div>
 
-            {/* Heading */}
             <h1 className="nf-heading">
-              404<br />
+              404
+              <br />
               <span>lost in transit.</span>
             </h1>
 
             <p className="nf-body-text">
-              This page doesn't exist, was moved, or the link is broken.
-              Your complaint still matters — let's get you back on track.
+              This page doesn't exist, was moved, or the link is broken. Your
+              complaint still matters — let's get you back on track.
             </p>
 
             <hr className="nf-divider" />
 
-            {/* Path indicator */}
             <div className="nf-path">
-              <svg className="nf-path-icon" width="13" height="13" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" strokeWidth="2"
-                strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                className="nf-path-icon"
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <circle cx="12" cy="12" r="10" />
                 <line x1="12" y1="8" x2="12" y2="12" />
                 <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -321,42 +302,62 @@ export default function NotFound() {
               </span>
             </div>
 
-            {/* CTAs */}
             <Link to="/" className="nf-btn-primary">
               Back to home
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" strokeWidth="2.2"
-                strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </Link>
 
             <button onClick={() => navigate(-1)} className="nf-btn-ghost">
               Go back
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" strokeWidth="2"
-                strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
             </button>
-
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="nf-bottombar">
-          {["100% Free", "No account to track", "Transparent process"].map((t) => (
-            <div key={t} className="nf-bottombar-item">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
-                stroke="#2563EB" strokeWidth="3"
-                strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              <span>{t}</span>
-            </div>
-          ))}
+          {["100% Free", "No account to track", "Transparent process"].map(
+            (t) => (
+              <div key={t} className="nf-bottombar-item">
+                <svg
+                  width="11"
+                  height="11"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#2563EB"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span>{t}</span>
+              </div>
+            ),
+          )}
         </div>
-
       </div>
     </>
   );
