@@ -191,7 +191,7 @@ function StepIndicator({ current, steps }) {
         <div key={i} className="flex items-center">
           <div className="flex flex-col items-center">
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-300 ${
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-300 z-30 ${
                 i < current
                   ? "bg-blue-500 text-white"
                   : i === current
@@ -338,10 +338,30 @@ function SuccessPage({ result, onGoToDashboard }) {
 
   return (
     <div className="min-h-screen bg-white pt-20 pb-16 flex flex-col items-center justify-start px-4">
+      <div
+        className="absolute inset-0 pointer-events-none z-10"
+        style={{
+          backgroundImage: `
+        linear-gradient(rgba(0,0,0,0.042) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.042) 1px, transparent 1px)
+      `,
+          backgroundSize: "48px 48px",
+        }}
+      />
+
+      {/* Radial Fade */}
+      <div
+        className="absolute inset-0 pointer-events-none z-10"
+        style={{
+          background:
+            "radial-gradient(ellipse 90% 80% at 50% 50%, transparent 30%, #F7F6F2 100%)",
+        }}
+      />
+
       {/* Animated checkmark */}
-      <div className="mt-8 mb-6 relative">
+      <div className="mt-8 mb-6 relative z-30">
         <div
-          className="w-20 h-20 rounded-full bg-green-50 border-2 border-green-200 flex items-center justify-center animate-[scale-in_0.4s_ease-out]"
+          className="w-20 h-20 rounded-full bg-green-50 border-2 border-green-200 flex items-center justify-center animate-[scale-in_0.4s_ease-out] z-30"
           style={{ animation: "scaleIn 0.4s ease-out forwards" }}
         >
           <svg
@@ -362,16 +382,16 @@ function SuccessPage({ result, onGoToDashboard }) {
         </div>
       </div>
 
-      <h1 className="text-2xl md:text-3xl font-['DM_Serif_Display'] text-black text-center mb-1">
+      <h1 className="text-2xl md:text-3xl font-['DM_Serif_Display'] text-black text-center mb-1 z-30">
         Complaint Registered!
       </h1>
-      <p className="text-neutral-500 text-sm text-center mb-8 max-w-sm">
+      <p className="text-neutral-500 text-sm text-center mb-8 max-w-sm z-30">
         Your grievance has been filed. We'll keep you updated every step of the
         way.
       </p>
 
       {/* ID card */}
-      <div className="w-full max-w-md bg-black rounded-2xl p-5 mb-5 relative overflow-hidden">
+      <div className="w-full max-w-md bg-black rounded-2xl p-5 mb-5 relative overflow-hidden z-30">
         <div
           className="absolute inset-0 opacity-10"
           style={{
@@ -417,12 +437,12 @@ function SuccessPage({ result, onGoToDashboard }) {
       </div>
 
       {/* Info grid */}
-      <div className="w-full max-w-md grid grid-cols-1 gap-3 mb-5">
+      <div className="w-full max-w-md grid grid-cols-1 gap-3 mb-5 z-30">
         <div className="flex items-center gap-3 p-4 bg-neutral-50 border border-black/[0.07] rounded-2xl">
           <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 flex-shrink-0">
             <BuildingIcon />
           </div>
-          <div>
+          <div className="z-30">
             <p className="text-[10px] text-neutral-400 uppercase tracking-wider">
               Department Assigned
             </p>
@@ -464,7 +484,7 @@ function SuccessPage({ result, onGoToDashboard }) {
         </div>
       </div>
 
-      <div className="w-full max-w-md flex flex-col gap-2.5">
+      <div className="w-full max-w-md flex flex-col gap-2.5 z-30">
         <button
           onClick={onGoToDashboard}
           className="w-full flex items-center justify-center gap-2 py-3.5 bg-black text-white rounded-2xl
@@ -631,9 +651,28 @@ export default function RegisterComplaint() {
   const selectedCat = CATEGORIES.find((c) => c.id === form.category);
 
   return (
-    <div className="min-h-screen bg-white pt-16">
+    <div className="min-h-screen bg-white pt-16 relative overflow-hidden">
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(0,0,0,0.042) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.042) 1px, transparent 1px)
+      `,
+          backgroundSize: "48px 48px",
+        }}
+      />
+
+      {/* Radial Fade */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 90% 80% at 50% 50%, transparent 30%, #F7F6F2 100%)",
+        }}
+      />
       {/* Header band */}
-      <div className=" bg-white sticky top-16 z-30">
+      <div className=" sticky top-8 z-30">
         <div className="max-w-2xl mx-auto px-5 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-lg font-['DM_Serif_Display'] text-black leading-tight">
@@ -656,7 +695,7 @@ export default function RegisterComplaint() {
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-5 pt-8 pb-32">
+      <div className="max-w-2xl mx-auto px-5 pt-8 pb-32 z-10">
         <StepIndicator current={step} steps={STEPS} />
 
         {/* ── Step 0: Category ── */}
@@ -668,7 +707,7 @@ export default function RegisterComplaint() {
             <p className="text-sm text-neutral-500 mb-6">
               Select the category that best describes your complaint.
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 z-10">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.id}
@@ -676,7 +715,7 @@ export default function RegisterComplaint() {
                     update("category", cat.id);
                     setErrors({});
                   }}
-                  className={`flex flex-col items-start p-4 rounded-2xl border text-left transition-all duration-150 cursor-pointer
+                  className={`flex flex-col items-start p-4 rounded-2xl border text-left transition-all duration-150 cursor-pointer z-30
                     ${
                       form.category === cat.id
                         ? "bg-black border-black text-white shadow-[0_4px_14px_rgba(0,0,0,0.15)]"
