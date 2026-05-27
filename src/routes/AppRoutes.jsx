@@ -74,10 +74,10 @@ function AppRouterTree() {
       <Route element={<MainLayout />}>
           <Route path="/file-complaint" element={<RegisterComplaint />} />
           <Route path="/citizen/dashboard" element={<CitizenDashboard />} />
+          <Route path="/complaint/:id" element={<ComplaintDetails />} />
       </Route>
       <Route element={<RequireCitizen />}>
         <Route element={<CitizenLayout />}>
-          <Route path="/complaint/:id" element={<ComplaintDetails />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
       </Route>
