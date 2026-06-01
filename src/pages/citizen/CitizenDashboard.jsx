@@ -133,11 +133,11 @@ const MOCK_COMPLAINTS = [
 ];
 
 const HEATMAP_DATA = [
-  [0,1,0,2,1,0,0],
-  [1,0,2,1,0,1,0],
-  [0,2,1,0,3,1,0],
-  [1,0,0,1,0,2,1],
-  [0,1,2,0,1,0,0],
+  [0, 1, 0, 2, 1, 0, 0],
+  [1, 0, 2, 1, 0, 1, 0],
+  [0, 2, 1, 0, 3, 1, 0],
+  [1, 0, 0, 1, 0, 2, 1],
+  [0, 1, 2, 0, 1, 0, 0],
 ];
 
 const AI_INSIGHTS = [
@@ -401,8 +401,8 @@ function WardRankRing({ rank, total, percentile }) {
     <div className="flex items-center gap-4">
       <div className="relative flex-shrink-0" style={{ width: size, height: size }}>
         <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ transform: "rotate(-90deg)" }}>
-          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="#F0F3FA" strokeWidth={thick} />
-          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="#000000" strokeWidth={thick}
+          <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#F0F3FA" strokeWidth={thick} />
+          <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#000000" strokeWidth={thick}
             strokeDasharray={`${filled} ${circ}`} strokeLinecap="round" />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -444,9 +444,9 @@ function AIInsightCard({ insight }) {
 function QuickActions({ onNavigate }) {
   const actions = [
     { icon: <IPlus />, label: "New Complaint", sub: "File grievance", onClick: () => onNavigate("/file-complaint"), primary: true },
-    { icon: <IRefresh s={16} />, label: "Track Status", sub: "Check all active", onClick: () => {} },
-    { icon: <IShare s={16} />, label: "Export Report", sub: "Download PDF", onClick: () => {} },
-    { icon: <IMap />, label: "Ward Map", sub: "View hotspots", onClick: () => {} },
+    { icon: <IRefresh s={16} />, label: "Track Status", sub: "Check all active", onClick: () => { } },
+    { icon: <IShare s={16} />, label: "Export Report", sub: "Download PDF", onClick: () => { } },
+    { icon: <IMap />, label: "Ward Map", sub: "View hotspots", onClick: () => { } },
   ];
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
