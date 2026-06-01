@@ -760,7 +760,7 @@ export default function ComplaintDetail() {
             <p className="text-sm font-black" style={{ color: "#000" }}>Need help with this complaint?</p>
             <p className="text-xs mt-0.5" style={{ color: "#8892A4" }}>Contact the grievance helpline at 1800-XXX-XXXX or visit your ward office.</p>
           </div>
-          <a href="tel:1800XXXXXXX" className="act-btn-solid flex-shrink-0" style={{ whiteSpace: "nowrap", textDecoration: "none" }}>
+          <a href="tel:8777838839" className="act-btn-solid flex-shrink-0" style={{ whiteSpace: "nowrap", textDecoration: "none" }}>
             <IPhone s={13} /> Contact
           </a>
         </div>
