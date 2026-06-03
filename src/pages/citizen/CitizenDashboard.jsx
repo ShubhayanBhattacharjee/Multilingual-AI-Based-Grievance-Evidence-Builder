@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../../components/common/Footer";
 
 // ─── Mock Data ────────────────────────────────────────────────────────────────
 const MOCK_CITIZEN = {
@@ -1051,6 +1052,7 @@ export default function CitizenDashboard() {
       </div>
 
       {drawer && <DetailDrawer complaint={drawer} onClose={() => setDrawer(null)} onNavigate={(path) => navigate(path)} />}
+    <Footer/>
     </div>
   );
 }

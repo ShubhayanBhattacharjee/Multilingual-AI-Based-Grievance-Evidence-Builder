@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import Footer from "../../components/common/Footer";
 
 const MOCK_COMPLAINTS = {
   "NVR-25-104821": {
@@ -559,7 +560,7 @@ export default function ComplaintDetail() {
 
       {/* Top bar */}
       <div className="topbar">
-        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center gap-3">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center gap-3">
           <button className="back-btn" onClick={() => window.history.back()}><IChevL /></button>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-black truncate" style={{ color: "#000" }}>{complaint.title}</p>
@@ -572,7 +573,7 @@ export default function ComplaintDetail() {
         </div>
       </div>
 
-      <div className="relative z-10 max-w-3xl mx-auto px-4 py-6 space-y-4">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 py-6 space-y-4">
 
         {/* Hero card */}
         <div className="det-card p-6 fu">
@@ -767,6 +768,7 @@ export default function ComplaintDetail() {
 
         <div className="h-8" />
       </div>
+      <Footer/>
     </div>
   );
 }
