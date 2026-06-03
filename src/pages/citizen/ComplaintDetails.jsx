@@ -283,9 +283,9 @@ function TimelineStep({ label, date, by, done, active, last }) {
   return (
     <div className="relative flex gap-5">
       {!last && (
-        <div className="absolute left-[15px] top-8 w-px" style={{ bottom: -20, background: done ? "#000" : "#E4E8F0" }} />
+        <div className="absolute left-3.75 top-8 w-px" style={{ bottom: -20, background: done ? "#000" : "#E4E8F0" }} />
       )}
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 z-10 ${done ? "tl-done" : active ? "tl-active" : "tl-pend"}`}>
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 z-10 ${done ? "tl-done" : active ? "tl-active" : "tl-pend"}`}>
         {done ? <ICheck s={13} stroke="white" /> : <span className="w-2.5 h-2.5 rounded-full" style={{ background: active ? "#000" : "#D1D9E6" }} />}
       </div>
       <div className="flex-1 pb-8">
@@ -294,7 +294,7 @@ function TimelineStep({ label, date, by, done, active, last }) {
             <p className="text-sm font-black" style={{ color: done || active ? "#000" : "#C4C9D4" }}>{label}</p>
           </div>
           {date && (
-            <div className="flex-shrink-0 text-right">
+            <div className="shrink-0 text-right">
               <p className="text-xs font-bold" style={{ color: "#000" }}>{fmtDateShort(date)}</p>
               {by && <p className="text-[10px] mt-0.5" style={{ color: "#B0B8C9" }}>{by}</p>}
             </div>
@@ -566,8 +566,8 @@ export default function ComplaintDetail() {
             <p className="text-sm font-black truncate" style={{ color: "#000" }}>{complaint.title}</p>
             <span className="id-pill">{complaint.id}</span>
           </div>
-          <div className="status-banner flex-shrink-0" style={{ background: st.bg, color: st.color }}>
-            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: st.dot }} />
+          <div className="status-banner shrink-0" style={{ background: st.bg, color: st.color }}>
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: st.dot }} />
             {complaint.status}
           </div>
         </div>
@@ -584,7 +584,7 @@ export default function ComplaintDetail() {
             </div>
           )}
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style={{ background: "#F0F3FA" }}>
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0" style={{ background: "#F0F3FA" }}>
               {CAT_ICON[complaint.category] || "📋"}
             </div>
             <div className="flex-1 min-w-0">
@@ -662,7 +662,7 @@ export default function ComplaintDetail() {
                 const active = i === currentStep;
                 return (
                   <div key={step} className="flex items-center gap-3 py-2.5" style={{ borderBottom: i < STEPS.length - 1 ? "1px dashed #F0F3FA" : "none" }}>
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${done ? "tl-done" : active ? "tl-active" : "tl-pend"}`}>
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${done ? "tl-done" : active ? "tl-active" : "tl-pend"}`}>
                       {done ? <ICheck s={12} stroke="white" /> : active ? <span className="w-2 h-2 rounded-full" style={{ background: "#000" }} /> : <span className="w-2 h-2 rounded-full" style={{ background: "#D1D9E6" }} />}
                     </div>
                     <div className="flex-1">
@@ -746,7 +746,7 @@ export default function ComplaintDetail() {
         {/* Pending alert */}
         {complaint.status === "Pending" && (
           <div className="det-card p-4 flex items-start gap-3 fu5" style={{ background: "#FFFBEB", borderColor: "#FDE68A" }}>
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "#FEF3C7", color: "#B45309" }}><IAlert /></div>
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: "#FEF3C7", color: "#B45309" }}><IAlert /></div>
             <div>
               <p className="text-sm font-black" style={{ color: "#000" }}>Awaiting acknowledgement</p>
               <p className="text-xs mt-0.5 leading-relaxed" style={{ color: "#8892A4" }}>Your complaint is in the review queue. Departments typically respond within 48 hours. You'll be notified when the status changes.</p>
@@ -756,12 +756,12 @@ export default function ComplaintDetail() {
 
         {/* Help footer */}
         <div className="det-card p-5 flex items-center gap-4 fu5">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "#000", color: "white" }}><IUser s={17} /></div>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: "#000", color: "white" }}><IUser s={17} /></div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-black" style={{ color: "#000" }}>Need help with this complaint?</p>
             <p className="text-xs mt-0.5" style={{ color: "#8892A4" }}>Contact the grievance helpline at 1800-XXX-XXXX or visit your ward office.</p>
           </div>
-          <a href="tel:8777838839" className="act-btn-solid flex-shrink-0" style={{ whiteSpace: "nowrap", textDecoration: "none" }}>
+          <a href="tel:8777838839" className="act-btn-solid shrink-0" style={{ whiteSpace: "nowrap", textDecoration: "none" }}>
             <IPhone s={13} /> Contact
           </a>
         </div>
